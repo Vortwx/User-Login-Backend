@@ -16,7 +16,7 @@ export class CreateUserDto {
   phoneNumber!: string;
 }
 
-export class RegisterUserResponseDto {
+export class CreateUserResponseDto {
   id!: string;
   username!: string;
   phoneNumber!: string;

@@ -33,6 +33,7 @@
 - User-related entities and interface are put under shared instead of user itself to prevent circular dependency
 - Theoretically Application Layer would not have dependencies on Infrastrcuture Layer, however as Controller requires reference to repository implementation hence it will be the only violation of Clean Architecture in practice.
 - Although it is best showcase the functionality by black-box testing (In fact the development is driven by black-box test), to fulfill the requirement of unittest all the tests here will be conducted in White-Box testing.
+- Uniqueness is enforced in nearly all details in User for now. If there were enough time, I would transition out the uniqueness of username and phone number and replace it with composite primary key (id)
 
 ## Architecture Layer
 

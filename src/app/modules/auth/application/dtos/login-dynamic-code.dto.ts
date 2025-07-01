@@ -10,6 +10,6 @@ export class LoginDynamicCodeDto {
     dynamicCode!: string;
   }
   
-  export class DynamicCodeLoginResponseDto {
+  export class LoginDynamicCodeResponseDto {
     sessionToken!: string; // The final JWT
   }
