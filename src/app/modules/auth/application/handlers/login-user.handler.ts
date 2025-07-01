@@ -5,6 +5,7 @@ import { IUserRepository, USER_REPOSITORY_TOKEN } from '../../../shared/domain/u
 import { IHasherService, HASHER_SERVICE_TOKEN } from '../../domain/interfaces/hasher.service.interface';
 import { IJwtService, JWT_SERVICE_TOKEN } from '../../domain/interfaces/jwt-service.interface';
 import { IDynamicCodeService, DYNAMIC_CODE_SERVICE_TOKEN } from '../../domain/interfaces/dynamic-code-service.interface';
+import { InvalidCredentialsError } from '../../domain/exceptions/invalid-credentials.error';
 
 @Injectable()
 @CommandHandler(LoginUserCommand)
@@ -24,12 +25,12 @@ export class LoginUserCommandHandler implements ICommandHandler<LoginUserCommand
     const user = await this.userRepository.findByUsername(command.username);
 
     if (!user) {
-      throw new UnauthorizedException('Invalid username or password.');
+      throw new InvalidCredentialsError("Invalid username."); //Invalid username
     }
 
     const isPasswordValid = await this.hasherService.compare(command.password, user.hashedPassword);
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid username or password.');
+      throw new InvalidCredentialsError("Invalid password for current username."); // Invalid password
     }
 
     const dynamicCode = this.dynamicCodeService.generateDynamicCode();

@@ -4,6 +4,8 @@ import { LoginDynamicCodeCommand, LoginDynamicCodeCommandResponse } from '../com
 import { IUserRepository, USER_REPOSITORY_TOKEN } from '../../../shared/domain/user/interfaces/user.interface';
 import { IJwtService, JWT_SERVICE_TOKEN } from '../../domain/interfaces/jwt-service.interface';
 import { IDynamicCodeService, DYNAMIC_CODE_SERVICE_TOKEN } from '../../domain/interfaces/dynamic-code-service.interface';
+import { InvalidDynamicCodeError } from '../../domain/exceptions/invalid-dynamic-code.error';
+import { UserNotFoundError } from 'src/app/modules/shared/domain/exceptions/user-not-found.error';
 
 @Injectable()
 @CommandHandler(LoginDynamicCodeCommand)
@@ -26,17 +28,17 @@ export class LoginDynamicCodeCommandHandler implements ICommandHandler<LoginDyna
       }
       userId = payload.sub;
     } catch (error) {
-      throw new UnauthorizedException('Invalid or expired temporary token.');
+      throw new UnauthorizedException('Invalid or expired pre-Authentication token.');
     }
 
     const isCodeValid = await this.dynamicCodeService.verifyDynamicCode(userId, command.dynamicCode);
     if (!isCodeValid) {
-      throw new UnauthorizedException('Invalid or expired dynamic code.');
+      throw new InvalidDynamicCodeError();
     }
     
     const user = await this.userRepository.findById(userId);
     if (!user) {
-        throw new UnauthorizedException('User not found after successful dynamic code verification.');
+        throw new UserNotFoundError('User not found after successful dynamic code verification.');
     }
 
     const sessionToken = await this.jwtService.sign({ sub: user.id, username: user.username });

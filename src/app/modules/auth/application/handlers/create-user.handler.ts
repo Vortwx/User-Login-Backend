@@ -5,6 +5,7 @@ import { IUserRepository, USER_REPOSITORY_TOKEN } from '../../../shared/domain/u
 import { IHasherService, HASHER_SERVICE_TOKEN } from '../../../auth/domain/interfaces/hasher.service.interface';
 import { User } from 'src/app/modules/shared/domain/user/entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { DuplicateUserError } from '../../domain/exceptions/duplicate-user.error';
 
 @Injectable()
 @CommandHandler(CreateUserCommand)
@@ -23,12 +24,12 @@ export class CreateUserCommandHandler implements ICommandHandler<CreateUserComma
 
     const existingUserByUsername = await this.userRepository.findByUsername(command.username);
     if (existingUserByUsername) {
-      throw new Error('Username already exists.');
+      throw new DuplicateUserError('Username already exists.');
     }
 
     const existingUserByPhoneNumber = await this.userRepository.findByPhoneNumber(command.phoneNumber);
     if (existingUserByPhoneNumber) {
-        throw new Error('Phone number already registered.');
+        throw new DuplicateUserError('Phone number already registered.');
     }
 
     const hashedPassword = await this.hasherService.hash(command.password);
