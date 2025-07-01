@@ -29,6 +29,10 @@
 - With reference to clean architecture, NestJS as a fundamentally modular framework stands out to enable separation of concern. This is chosen for adaption of SOLID principle including SRP and DIP for better scale in large project
 - It can be troublesome and seems redundant in small scale project hence this is only a showcase of what I can achieved and should be designed with MVC instead if the project scale stay this small
 - Clean Architecture aims for 4 different section including Presentation, Infrastructure, Application & Domain. While the separation of these layers are not explicitly stated, it will be classified in the next section
+- In addition to that, I implemented CQRS pattern for further separation of concern and atomicity for each request
+- User-related entities and interface are put under shared instead of user itself to prevent circular dependency
+- Theoretically Application Layer would not have dependencies on Infrastrcuture Layer, however as Controller requires reference to repository implementation hence it will be the only violation of Clean Architecture in practice.
+- Although it is best showcase the functionality by black-box testing (In fact the development is driven by black-box test), to fulfill the requirement of unittest all the tests here will be conducted in White-Box testing.
 
 ## Architecture Layer
 
