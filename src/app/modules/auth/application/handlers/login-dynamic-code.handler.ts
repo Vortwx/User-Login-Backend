@@ -5,7 +5,7 @@ import { IUserRepository, USER_REPOSITORY_TOKEN } from '../../../shared/domain/u
 import { IJwtService, JWT_SERVICE_TOKEN } from '../../domain/interfaces/jwt-service.interface';
 import { IDynamicCodeService, DYNAMIC_CODE_SERVICE_TOKEN } from '../../domain/interfaces/dynamic-code-service.interface';
 import { InvalidDynamicCodeError } from '../../domain/exceptions/invalid-dynamic-code.error';
-import { UserNotFoundError } from 'src/app/modules/shared/domain/exceptions/user-not-found.error';
+import { UserNotFoundError } from '../../../shared/domain/exceptions/user-not-found.error';
 
 @Injectable()
 @CommandHandler(LoginDynamicCodeCommand)
@@ -24,7 +24,7 @@ export class LoginDynamicCodeCommandHandler implements ICommandHandler<LoginDyna
     try {
       const payload: { sub: string; purpose: string } = await this.jwtService.verify(command.preAuthToken);
       if (payload.purpose !== 'dynamic_code_verification') {
-        throw new UnauthorizedException('Invalid token purpose.');
+        throw new UnauthorizedException(); // This will be masked by the error thrown by catch
       }
       userId = payload.sub;
     } catch (error) {

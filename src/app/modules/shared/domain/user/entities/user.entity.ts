@@ -18,9 +18,9 @@ export class User {
       throw new Error('Username must exists.');
     }
     
-    // Phone number should be at least 10 digits
+    // Phone number should be at least 10 digits and digits only
     if (!phoneNumber || !/^\d{10,}$/.test(phoneNumber)) {
-      throw new Error('Invalid phone number format.');
+      throw new Error('Invalid phone number format. Must be at least 10 digits.');
     }
     if (!hashedPassword) {
       throw new Error('Password cannot be empty.');
@@ -43,7 +43,7 @@ export class User {
 
   public updatePhoneNumber(newPhoneNumber: string): void {
     if (!newPhoneNumber || !/^\d{10,}$/.test(newPhoneNumber)) {
-      throw new Error('Invalid new phone number format.');
+      throw new Error('Invalid new phone number format. Must be at least 10 digits.');
     }
     this._phoneNumber = newPhoneNumber;
     this._updatedAt = new Date();
@@ -52,10 +52,6 @@ export class User {
   public updateHashedPassword(newHashedPassword: string): void {
     if (!newHashedPassword) {
       throw new Error('New password cannot be empty.');
-    }
-    // tricky check (Need to do bug checking)
-    else if (newHashedPassword === this._hashedPassword) {
-      throw new Error('New password cannot be the same as the old one.');
     }
     this._hashedPassword = newHashedPassword;
     this._updatedAt = new Date();

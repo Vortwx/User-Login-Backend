@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateUserCommand, CreateUserCommandResponse } from '../commands/create-user.command';
 import { IUserRepository, USER_REPOSITORY_TOKEN } from '../../../shared/domain/user/interfaces/user.interface';
-import { IHasherService, HASHER_SERVICE_TOKEN } from '../../../auth/domain/interfaces/hasher.service.interface';
-import { User } from 'src/app/modules/shared/domain/user/entities/user.entity';
+import { IHasherService, HASHER_SERVICE_TOKEN } from '../../domain/interfaces/hasher-service.interface';
+import { User } from '../../../shared/domain/user/entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { DuplicateUserError } from '../../domain/exceptions/duplicate-user.error';
 

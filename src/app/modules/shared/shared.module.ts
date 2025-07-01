@@ -8,7 +8,7 @@ import { JwtService } from './infrastructure/providers/jwt.service';
 import { DynamicCodeService } from './infrastructure/providers/dynamic-code.service';
 
 import { USER_REPOSITORY_TOKEN } from './domain/user/interfaces/user.interface';
-import { HASHER_SERVICE_TOKEN } from 'src/app/modules/auth/domain/interfaces/hasher.service.interface';
+import { HASHER_SERVICE_TOKEN } from 'src/app/modules/auth/domain/interfaces/hasher-service.interface';
 import { JWT_SERVICE_TOKEN } from 'src/app/modules/auth/domain/interfaces/jwt-service.interface';
 import { DYNAMIC_CODE_SERVICE_TOKEN } from 'src/app/modules/auth/domain/interfaces/dynamic-code-service.interface';
 

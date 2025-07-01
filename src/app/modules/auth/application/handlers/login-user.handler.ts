@@ -2,7 +2,7 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { LoginUserCommand, LoginUserCommandResponse } from '../commands/login-user.command';
 import { IUserRepository, USER_REPOSITORY_TOKEN } from '../../../shared/domain/user/interfaces/user.interface';
-import { IHasherService, HASHER_SERVICE_TOKEN } from '../../domain/interfaces/hasher.service.interface';
+import { IHasherService, HASHER_SERVICE_TOKEN } from '../../domain/interfaces/hasher-service.interface';
 import { IJwtService, JWT_SERVICE_TOKEN } from '../../domain/interfaces/jwt-service.interface';
 import { IDynamicCodeService, DYNAMIC_CODE_SERVICE_TOKEN } from '../../domain/interfaces/dynamic-code-service.interface';
 import { InvalidCredentialsError } from '../../domain/exceptions/invalid-credentials.error';

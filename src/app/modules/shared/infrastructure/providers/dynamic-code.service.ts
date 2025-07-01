@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IDynamicCodeService } from '../../../auth/domain/interfaces/dynamic-code-service.interface';
-import { IHasherService } from 'src/app/modules/auth/domain/interfaces/hasher.service.interface';
-import { HASHER_SERVICE_TOKEN } from 'src/app/modules/auth/domain/interfaces/hasher.service.interface';
+import { IHasherService } from 'src/app/modules/auth/domain/interfaces/hasher-service.interface';
+import { HASHER_SERVICE_TOKEN } from 'src/app/modules/auth/domain/interfaces/hasher-service.interface';
 
 interface DynamicCodeData {
   hashedCode: string;
