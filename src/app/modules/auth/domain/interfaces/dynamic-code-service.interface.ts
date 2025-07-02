@@ -1,6 +1,10 @@
 export interface IDynamicCodeService {
     generateDynamicCode(): string;
-    storeDynamicCode(userId: string, hashedCode: string, expiresInMinutes?: number): void;
+    storeDynamicCode(
+        userId: string,
+        hashedCode: string,
+        expiresInMinutes?: number,
+    ): void;
     verifyDynamicCode(userId: string, code: string): Promise<boolean>;
 }
 

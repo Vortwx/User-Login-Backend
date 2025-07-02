@@ -10,20 +10,14 @@ import { LoginUserCommandHandler } from './application/handlers/login-user.handl
 import { LoginDynamicCodeCommandHandler } from './application/handlers/login-dynamic-code.handler';
 
 @Module({
-  imports: [
-    SharedModule,
-    PassportModule,
-    CqrsModule,
-  ],
-  controllers: [AuthController],
-  providers: [
-    CreateUserCommandHandler,
-    LoginUserCommandHandler,
-    LoginDynamicCodeCommandHandler,
-    JwtStrategy,
-  ],
-  exports: [
-    JwtStrategy,
-  ]
+    imports: [SharedModule, PassportModule, CqrsModule],
+    controllers: [AuthController],
+    providers: [
+        CreateUserCommandHandler,
+        LoginUserCommandHandler,
+        LoginDynamicCodeCommandHandler,
+        JwtStrategy,
+    ],
+    exports: [JwtStrategy],
 })
 export class AuthModule {}

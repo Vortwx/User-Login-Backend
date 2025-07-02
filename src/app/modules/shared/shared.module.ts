@@ -14,28 +14,28 @@ import { DYNAMIC_CODE_SERVICE_TOKEN } from 'src/app/modules/auth/domain/interfac
 
 @Global()
 @Module({
-  imports: [
-    ConfigModule,
-    NestJwtModule.registerAsync({
-        imports: [ConfigModule],
-        useFactory: async (configService: ConfigService) => ({
-            secret: configService.get<string>('JWT_SECRET'),
-            signOptions: { expiresIn: '1h' }, // Session token is 1 hour long by default
+    imports: [
+        ConfigModule,
+        NestJwtModule.registerAsync({
+            imports: [ConfigModule],
+            useFactory: async (configService: ConfigService) => ({
+                secret: configService.get<string>('JWT_SECRET'),
+                signOptions: { expiresIn: '1h' }, // Session token is 1 hour long by default
+            }),
+            inject: [ConfigService],
         }),
-        inject: [ConfigService],
-    }),
-  ],
-  providers: [
-    { provide: USER_REPOSITORY_TOKEN, useClass: PrismaUserRepository },
-    { provide: HASHER_SERVICE_TOKEN, useClass: BcryptHasherService },
-    { provide: JWT_SERVICE_TOKEN, useClass: JwtService },
-    { provide: DYNAMIC_CODE_SERVICE_TOKEN, useClass: DynamicCodeService },
-  ],
-  exports: [
-    USER_REPOSITORY_TOKEN,
-    HASHER_SERVICE_TOKEN,
-    JWT_SERVICE_TOKEN,
-    DYNAMIC_CODE_SERVICE_TOKEN,
-  ],
+    ],
+    providers: [
+        { provide: USER_REPOSITORY_TOKEN, useClass: PrismaUserRepository },
+        { provide: HASHER_SERVICE_TOKEN, useClass: BcryptHasherService },
+        { provide: JWT_SERVICE_TOKEN, useClass: JwtService },
+        { provide: DYNAMIC_CODE_SERVICE_TOKEN, useClass: DynamicCodeService },
+    ],
+    exports: [
+        USER_REPOSITORY_TOKEN,
+        HASHER_SERVICE_TOKEN,
+        JWT_SERVICE_TOKEN,
+        DYNAMIC_CODE_SERVICE_TOKEN,
+    ],
 })
 export class SharedModule {}

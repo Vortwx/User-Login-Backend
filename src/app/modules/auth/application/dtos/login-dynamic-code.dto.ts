@@ -4,12 +4,12 @@ export class LoginDynamicCodeDto {
     @IsString()
     @IsUUID('4', { message: 'Invalid temporary token format.' })
     preAuthToken!: string;
-  
+
     @IsString()
     @Length(6, 6, { message: 'Dynamic code must be 6 digits.' })
     dynamicCode!: string;
-  }
-  
-  export class LoginDynamicCodeResponseDto {
+}
+
+export class LoginDynamicCodeResponseDto {
     sessionToken!: string; // The final JWT
-  }
+}

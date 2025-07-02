@@ -7,15 +7,9 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { GetUserProfileQueryHandler } from './application/handlers/get-user-profile.handler';
 
 @Module({
-  imports: [
-    SharedModule,
-    AuthModule,
-    CqrsModule,
-  ],
-  controllers: [UserController],
-  providers: [
-    GetUserProfileQueryHandler,
-  ],
-  exports: [],
+    imports: [SharedModule, AuthModule, CqrsModule],
+    controllers: [UserController],
+    providers: [GetUserProfileQueryHandler],
+    exports: [],
 })
 export class UserModule {}

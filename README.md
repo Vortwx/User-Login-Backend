@@ -26,6 +26,7 @@
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Architecture Choice
+
 - With reference to clean architecture, NestJS as a fundamentally modular framework stands out to enable separation of concern. This is chosen for adaption of SOLID principle including SRP and DIP for better scale in large project
 - It can be troublesome and seems redundant in small scale project hence this is only a showcase of what I can achieved and should be designed with MVC instead if the project scale stay this small
 - Clean Architecture aims for 4 different section including Presentation, Infrastructure, Application & Domain. While the separation of these layers are not explicitly stated, it will be classified in the next section
@@ -37,14 +38,15 @@
 
 ## Architecture Layer
 
-
 ## Tech Stack
+
 - NestJS as framework
 - Typescript as Language
 - Prisma as ORM
 - SQLite as Database
 
 ## Current Alternative Solution
+
 - use a fixed 32 bytes random generated hexadecimal secret key instead of public key and private key in .key file format
 
 ## Project setup

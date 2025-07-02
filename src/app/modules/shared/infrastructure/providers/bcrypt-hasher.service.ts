@@ -5,17 +5,20 @@ import { IHasherService } from '../../../auth/domain/interfaces/hasher-service.i
 
 @Injectable()
 export class BcryptHasherService implements IHasherService {
-  private readonly saltRounds: number;
+    private readonly saltRounds: number;
 
-  constructor(private readonly configService: ConfigService) {
-    this.saltRounds = parseInt(this.configService.get<string>('BCRYPT_SALT_ROUNDS') || '10', 10);
-  }
+    constructor(private readonly configService: ConfigService) {
+        this.saltRounds = parseInt(
+            this.configService.get<string>('BCRYPT_SALT_ROUNDS') || '10',
+            10,
+        );
+    }
 
-  async hash(data: string): Promise<string> {
-    return bcrypt.hash(data, this.saltRounds);
-  }
+    async hash(data: string): Promise<string> {
+        return bcrypt.hash(data, this.saltRounds);
+    }
 
-  async compare(data: string, hashedData: string): Promise<boolean> {
-    return bcrypt.compare(data, hashedData);
-  }
+    async compare(data: string, hashedData: string): Promise<boolean> {
+        return bcrypt.compare(data, hashedData);
+    }
 }

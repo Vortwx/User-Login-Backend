@@ -1,5 +1,9 @@
-import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
-  
+import {
+    registerDecorator,
+    ValidationOptions,
+    ValidationArguments,
+} from 'class-validator';
+
 function containsUpperCase(str: string) {
     return Array.from(str).some((char) => char >= 'A' && char <= 'Z');
 }
@@ -25,24 +29,22 @@ function isDigitOnly(str: string) {
 export function ContainsUppercase(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         registerDecorator({
-        name: 'containsUppercase',
-        target: object.constructor,
-        propertyName: propertyName,
-        options: validationOptions,
-        validator: {
-            validate(value: any, args: ValidationArguments) 
-            {
-                if (typeof value !== 'string') {
-                    return false; 
-                }
+            name: 'containsUppercase',
+            target: object.constructor,
+            propertyName: propertyName,
+            options: validationOptions,
+            validator: {
+                validate(value: any, args: ValidationArguments) {
+                    if (typeof value !== 'string') {
+                        return false;
+                    }
 
-                return containsUpperCase(value);
+                    return containsUpperCase(value);
+                },
+                defaultMessage(args: ValidationArguments) {
+                    return `${args.property} must contain at least one uppercase letter.`;
+                },
             },
-            defaultMessage(args: ValidationArguments) 
-            {
-                return `${args.property} must contain at least one uppercase letter.`;
-            }
-        }
         });
     };
 }
@@ -50,74 +52,70 @@ export function ContainsUppercase(validationOptions?: ValidationOptions) {
 export function ContainsLowercase(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         registerDecorator({
-        name: 'containsLowercase',
-        target: object.constructor,
-        propertyName: propertyName,
-        options: validationOptions,
-        validator: {
-            validate(value: any, args: ValidationArguments) 
-            {
-                if (typeof value !== 'string') {
-                    return false;
-                }
+            name: 'containsLowercase',
+            target: object.constructor,
+            propertyName: propertyName,
+            options: validationOptions,
+            validator: {
+                validate(value: any, args: ValidationArguments) {
+                    if (typeof value !== 'string') {
+                        return false;
+                    }
 
-                return containsLowerCase(value);
+                    return containsLowerCase(value);
+                },
+                defaultMessage(args: ValidationArguments) {
+                    return `${args.property} must contain at least one lowercase letter.`;
+                },
             },
-            defaultMessage(args: ValidationArguments) 
-            {
-                return `${args.property} must contain at least one lowercase letter.`;
-            }
-        }
         });
     };
 }
-  
+
 export function ContainsDigit(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         registerDecorator({
-        name: 'containsDigit',
-        target: object.constructor,
-        propertyName: propertyName,
-        options: validationOptions,
-        validator: {
-            validate(value: any, args: ValidationArguments) 
-            {
-                if (typeof value !== 'string') {
-                    return false;
-                }
+            name: 'containsDigit',
+            target: object.constructor,
+            propertyName: propertyName,
+            options: validationOptions,
+            validator: {
+                validate(value: any, args: ValidationArguments) {
+                    if (typeof value !== 'string') {
+                        return false;
+                    }
 
-                return containsDigit(value);
+                    return containsDigit(value);
+                },
+                defaultMessage(args: ValidationArguments) {
+                    return `${args.property} must contain at least one number.`;
+                },
             },
-            defaultMessage(args: ValidationArguments) 
-            {
-                return `${args.property} must contain at least one number.`;
-            }
-        }
         });
     };
 }
-  
-export function ContainsSpecialCharacter(validationOptions?: ValidationOptions) {
+
+export function ContainsSpecialCharacter(
+    validationOptions?: ValidationOptions,
+) {
     return function (object: Object, propertyName: string) {
         registerDecorator({
-        name: 'containsSpecialCharacter',
-        target: object.constructor,
-        propertyName: propertyName,
-        options: validationOptions,
-        validator: {
-            validate(value: any, args: ValidationArguments) 
-            {
-                if (typeof value !== 'string') {
-                    return false;
-                }
-                
-                return containsSpecialCharacter(value);
+            name: 'containsSpecialCharacter',
+            target: object.constructor,
+            propertyName: propertyName,
+            options: validationOptions,
+            validator: {
+                validate(value: any, args: ValidationArguments) {
+                    if (typeof value !== 'string') {
+                        return false;
+                    }
+
+                    return containsSpecialCharacter(value);
+                },
+                defaultMessage(args: ValidationArguments) {
+                    return `${args.property} must contain at least one special character (@$!%*?&).`;
+                },
             },
-            defaultMessage(args: ValidationArguments) 
-            {
-                return `${args.property} must contain at least one special character (@$!%*?&).`;
-            }
-        }
         });
     };
 }
@@ -125,24 +123,22 @@ export function ContainsSpecialCharacter(validationOptions?: ValidationOptions) 
 export function IsDigitOnly(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         registerDecorator({
-        name: 'isDigitOnly',
-        target: object.constructor,
-        propertyName: propertyName,
-        options: validationOptions,
-        validator: {
-            validate(value: any, args: ValidationArguments) 
-            {
-                if (typeof value !== 'string') {
-                    return false;
-                }
-                
-                return isDigitOnly(value);
+            name: 'isDigitOnly',
+            target: object.constructor,
+            propertyName: propertyName,
+            options: validationOptions,
+            validator: {
+                validate(value: any, args: ValidationArguments) {
+                    if (typeof value !== 'string') {
+                        return false;
+                    }
+
+                    return isDigitOnly(value);
+                },
+                defaultMessage(args: ValidationArguments) {
+                    return `${args.property} must contain only digits.`;
+                },
             },
-            defaultMessage(args: ValidationArguments) 
-            {
-                return `${args.property} must contain only digits.`;
-            }
-        }
         });
-    }
+    };
 }

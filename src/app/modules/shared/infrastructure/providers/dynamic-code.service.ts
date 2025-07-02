@@ -4,8 +4,8 @@ import { IHasherService } from 'src/app/modules/auth/domain/interfaces/hasher-se
 import { HASHER_SERVICE_TOKEN } from 'src/app/modules/auth/domain/interfaces/hasher-service.interface';
 
 interface DynamicCodeData {
-  hashedCode: string;
-  expiresAt: Date;
+    hashedCode: string;
+    expiresAt: Date;
 }
 
 @Injectable()
@@ -22,19 +22,31 @@ export class DynamicCodeService implements IDynamicCodeService {
         return Math.floor(100000 + Math.random() * 900000).toString();
     }
 
-    storeDynamicCode(userId: string, hashedCode: string, expiresInMinutes: number = 5): void {
+    storeDynamicCode(
+        userId: string,
+        hashedCode: string,
+        expiresInMinutes: number = 5,
+    ): void {
         const expiresAt = new Date(Date.now() + expiresInMinutes * 60 * 1000);
         this.userDynamicCodeData.set(userId, { hashedCode, expiresAt });
-        
-        setTimeout(() => {
-            if (this.userDynamicCodeData.has(userId)) {
-                const currentStored = this.userDynamicCodeData.get(userId);
-                if (currentStored && currentStored.hashedCode === hashedCode) {
-                    this.userDynamicCodeData.delete(userId);
-                    console.log(`[DEBUG] OTP for user ${userId} expired and removed.`);
+
+        setTimeout(
+            () => {
+                if (this.userDynamicCodeData.has(userId)) {
+                    const currentStored = this.userDynamicCodeData.get(userId);
+                    if (
+                        currentStored &&
+                        currentStored.hashedCode === hashedCode
+                    ) {
+                        this.userDynamicCodeData.delete(userId);
+                        console.log(
+                            `[DEBUG] OTP for user ${userId} expired and removed.`,
+                        );
+                    }
                 }
-            }
-        }, expiresInMinutes * 60 * 1000);
+            },
+            expiresInMinutes * 60 * 1000,
+        );
     }
 
     async verifyDynamicCode(userId: string, code: string): Promise<boolean> {
@@ -49,7 +61,10 @@ export class DynamicCodeService implements IDynamicCodeService {
             return false;
         }
 
-        const isValid = await this.hasherService.compare(code, storedData.hashedCode);
+        const isValid = await this.hasherService.compare(
+            code,
+            storedData.hashedCode,
+        );
 
         if (isValid) {
             this.userDynamicCodeData.delete(userId);
