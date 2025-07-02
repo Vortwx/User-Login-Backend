@@ -3,9 +3,9 @@ import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 
-import { SharedModule } from './app/modules/shared/shared.module';
-import { AuthModule } from './app/modules/auth/auth.module';
-import { UserModule } from './app/modules/user/user.module';
+import { SharedModule } from './shared/shared.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
     imports: [

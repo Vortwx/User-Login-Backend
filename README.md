@@ -28,15 +28,45 @@
 ## Architecture Choice
 
 - With reference to clean architecture, NestJS as a fundamentally modular framework stands out to enable separation of concern. This is chosen for adaption of SOLID principle including SRP and DIP for better scale in large project
+
 - It can be troublesome and seems redundant in small scale project hence this is only a showcase of what I can achieved and should be designed with MVC instead if the project scale stay this small
-- Clean Architecture aims for 4 different section including Presentation, Infrastructure, Application & Domain. While the separation of these layers are not explicitly stated, it will be classified in the next section
-- In addition to that, I implemented CQRS pattern for further separation of concern and atomicity for each request
+
+- Clean Architecture aims for 4 different section including Presentation, Infrastructure, Application & Domain. While the separation of these layers are not explicitly stated, it will be classified in the next section.
+
+- In addition to that, I implemented CQRS pattern for further separation of concern and atomicity for each request. (Split into Commands/Queries)
+
 - User-related entities and interface are put under shared instead of user itself to prevent circular dependency
-- Theoretically Application Layer would not have dependencies on Infrastrcuture Layer, however as Controller requires reference to repository implementation hence it will be the only violation of Clean Architecture in practice.
-- Although it is best showcase the functionality by black-box testing (In fact the development is driven by black-box test), to fulfill the requirement of unittest all the tests here will be conducted in White-Box testing.
-- Uniqueness is enforced in nearly all details in User for now. If there were enough time, I would transition out the uniqueness of username and phone number and replace it with composite primary key (id)
+
+- This architecture is preferred for large scale project as it is easy to test and debug thanks to its Dependency Injection (DIP) nature. Also, by enforcing CQRS we implying Single Responsibility Principle (SRP) to minimise coupling. The strict dependency flow ensure the code will not become tightly coupled and will remain maintainable as the system grows in complexity.
 
 ## Architecture Layer
+I did some modification to the original Clean Architecture. Instead of forming a general layer, they are divided into modules and each module have their own (up to 4) layers that adhere to Clean Architecture.
+
+1. Presentation Layer (Api) - *.controller.ts 
+(Entry point for external API request, doesn't know the detail but know who to delegate the task with and the results)
+
+2. Application Layer - *.command.ts || *.query.ts || *.handler.ts
+(Define business logic, use ICommandHandler and IRepository, but the technical details of how data is stored/retrieved is abstracted away)
+**Also there are Command & Query which act as DTO for now that defines the contract of what should be input and outputted**
+
+3. Infrastructure Layer - *.respository.ts || .service.ts
+(Implement the interfaces defined by Domain Layer, acts as adapter to the external tool and framework)
+
+4. Domain Layer - *.entity.ts || *.interface.ts
+(Defines what operations it needs on its entities.)
+
+**There are warnings of controller referencing error in domain layer, which in this case is perfectly fine since ErrorType is straightforward and cannot be indirectly reference to through Application Layer. It doesn't violate Clean Architecture too as it only discourage dependency from inner layer to outer layer.**
+
+Please reference to *dependency-graph.svg* to have a brief idea of how this is constructed.
+
+## Design Rationale
+Security is the priority when constructing this backend and I have put most of the time into it. Excluding the login and createUser endpoint which requires public access, all of the other endpoint requires some sort of authentication (which means it is safely guarded).
+
+All of the password and dynamic code stored will be handled by bcrypt to hash and salt it, so that database will never store explicit password to increase safety.
+
+Between the process of login by password and double verification of dynamic code, user haven't officially authenticated but the endpoint should not be publicly accessed to prevent dynamic code brute-forcing from unknown identity. Hence I introduced a preAuthToken which will be passed along from the response after successful login by password. Only user with the given preAuthToken can access to dynamic code submission endpoint.
+
+For the verification, since it is signed by user id and user name, as long as JWT_SECRET doesn't leak it would be fine. The expiration of this token is set to 1 hours and JWT will acknowledge expired token as invalid token. Within this 1 hour, user will not need to login again as login() function will check if session is still valid first.
 
 ## Tech Stack
 
@@ -49,11 +79,22 @@
 
 - use a fixed 32 bytes random generated hexadecimal secret key instead of public key and private key in .key file format
 
+- Uniqueness is enforced in nearly all details in User for now. If there were enough time, I would transition out the uniqueness of username and phone number and replace it with composite primary key (id)
+
+- I have merged the idea of Dtos and commands into one for now. Technically Dtos is the main focus of the decorator while commands just accpet input of different Dto types.
+
 ## Project setup
 
 ```bash
 $ npm install
 ```
+
+Remember to attach the .env file
+Run 
+```bash
+$ npx depcruise src --config .dependency-cruiser.js
+```
+to check the dependency violation throughout the codebase
 
 ## Compile and run the project
 
